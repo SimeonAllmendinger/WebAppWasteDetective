@@ -1,24 +1,3 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
-
-import App from './App';
-import * as serviceWorker from './serviceWorker';
-
-//import './App.css';
-import './assets/scss/style.scss';
-
-const history = createBrowserHistory();
-
-ReactDOM.render(
-  <Router history={history}>
-    <App />
-  </Router>,
-  document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+version https://git-lfs.github.com/spec/v1
+oid sha256:1dff7360713f1b4467fad00f504569fc9d4408f5358506488d70436a6e3f9b71
+size 670
