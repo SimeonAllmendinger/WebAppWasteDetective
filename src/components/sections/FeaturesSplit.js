@@ -96,7 +96,7 @@ const FeaturesSplit = ({
                   Worry-free workflow
                 </div>
                 <h3 className="mt-0 mb-12">
-                  Obtain the correct trash can for you waste. 
+                  Obtain the correct trash can for your waste. 
                 </h3>
                 <p className="m-0">
                   Using state-of-the-art object detetcion algorithms we predict your waste item and propose a suitable trash can.
