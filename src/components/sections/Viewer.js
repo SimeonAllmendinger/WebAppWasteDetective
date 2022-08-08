@@ -38,6 +38,7 @@ const Viewer = ({
     const [submitSuccess, setSubmitSuccess] = useState(true);
     const ws_predict = useRef(null);
     const ws_submit = useRef(null);
+    const [webcam, setWebcam] = useState(true);
 
     const outerClasses = classNames(
         'keywordGraph-outer section',
@@ -57,7 +58,7 @@ const Viewer = ({
     const tilesClasses = classNames(
         'tiles-wrap center-content',
     );
-    
+
     useEffect(() => {
         const client_id = Date.now();
         const url_predict = `${config.WS_SERVER}/${client_id}`;
@@ -118,25 +119,41 @@ const Viewer = ({
     const videoConstraints = {
         width: 1280,
         height: 720,
-        facingMode: "environment", // Can be "environment" or "user"
+        //facingMode: "environment", // Can be "environment" or "user"
     };
 
     const capture = useCallback(() => {
         setSubmitBool(false)
 
-        const capturedImg = webcamRef.current.getScreenshot();
-        setCapturedImg(capturedImg);
+        if (webcam) {
+            console.log('TRUE')
+            const capturedImg_helper = webcamRef.current.getScreenshot()
+            setCapturedImg(capturedImg_helper)
+            //console.log(capturedImg);
+            sendMessage(capturedImg_helper);
+        }
+        else {
+            const capturedImg_helper = document.getElementById('image-placeholder').src = 'http://0.0.0.0:8088/stream/image' + document.getElementById('jpeg').value + '.jpeg'
+            setCapturedImg(capturedImg_helper)
+            //console.log(capturedImg);
+            sendMessage(capturedImg_helper);
+        }
 
-        //console.log(capturedImg);
-        sendMessage(capturedImg);
+        
     }, [webcamRef]);
 
     const submit = useCallback(() => {
         setSubmitBool(true)
-        
-        const submitImg = webcamRef.current.getScreenshot();
-        setSubmitImg(submitImg);
 
+        if (webcam) {
+            const submitImg_helper = webcamRef.current.getScreenshot()
+            setSubmitImg(submitImg_helper);
+        }
+        else {
+            const submitImg_helper = document.getElementById('image-placeholder').src = 'http://0.0.0.0:8088/stream/image' + document.getElementById('jpeg').value + '.jpeg'
+            setSubmitImg(submitImg_helper);
+        }
+       
         //console.log(submitImg);
         sendSubmit(submitImg);
     }, [webcamRef]);
@@ -159,6 +176,7 @@ const Viewer = ({
                                 <div className="tiles-item-inner">
                                     <div className="features-tiles-item-header">
                                         <div className="features-tiles-item-image mb-16">
+                                            {webcam?
                                             <Webcam
                                                 audio={false}
                                                 ref={webcamRef}
@@ -166,6 +184,9 @@ const Viewer = ({
                                                 width="100%"
                                                 videoConstraints={videoConstraints}
                                             />
+                                            :
+                                            <img src="0.0.0.0/8088/stream" type="image/jpeg" />
+                                            }
                                         </div>
                                     </div>
                                     <div className="features-tiles-item-content">
@@ -173,7 +194,7 @@ const Viewer = ({
                                             Webcam
                                         </h4>
                                         <ButtonGroup>
-                                        <Button onClick={capture} tag="a" color="secondary" wideMobile>Capture photo</Button>
+                                            <Button onClick={capture} tag="a" color="secondary" wideMobile>Capture photo</Button>
                                         <Button onClick={submit} color='dark' wideMobile>Submit photo</Button>
                                         </ButtonGroup>
                                     </div>
